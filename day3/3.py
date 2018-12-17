@@ -34,6 +34,7 @@ def do_work(files):
     squares = []
     total = 0
     matches = set()
+    unique_id = -1
 
     pattern = r"#\d+ @ (?P<from_x>\d+),(?P<from_y>\d+): (?P<x_len>\d+)x(?P<y_len>\d+)"  # noqa: E501
     line_re = re.compile(pattern)
@@ -60,7 +61,7 @@ def do_work(files):
     for counter, first in enumerate(squares[:-1]):
         # increase the counter by one because we don't need to check the
         # current set against itself.
-        for second in squares[counter+1:]:
+        for second_counter, second in enumerate(squares[counter+1:]):
             # now find any points that are in both sets
             local_match = set(first) & set(second)
             if local_match:
@@ -71,8 +72,13 @@ def do_work(files):
                 # and add the points to the overall list so they're
                 # not double counted.
                 matches |= unique_match
+        if not set(first) & matches:
+            unique_id = counter + 1
+    if unique_id == -1:
+        unique_id = len(squares)
 
     print("Total: {}".format(total))
+    print("Total: {}, Unique Id: {}".format(total, unique_id))
 
 
 ###############################################################################
