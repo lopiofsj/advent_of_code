@@ -50,6 +50,16 @@
 #
 # What is the ID of the guard you chose multiplied by the minute you chose?
 # (In the above example, the answer would be 10 * 24 = 240.)
+#
+# Strategy 2: Of all guards, which guard is most frequently asleep on the
+# same minute?
+#
+# In the example above, Guard #99 spent minute 45 asleep more than any other
+# guard or minute - three times in total. (In all other cases, any guard spent
+# any minute asleep at most twice.)
+#
+# What is the ID of the guard you chose multiplied by the minute you chose?
+# (In the above example, the answer would be 99 * 45 = 4455.)
 
 #
 # ASSUME INPUT IS SORTED
@@ -101,8 +111,8 @@ def do_work(files):
             begin_sleep = end_sleep = -1
 
     # used to keep track of who we should target
-    max_minute = max_sleep = -1
-    max_gid = '-1'
+    max_minute_index = max_minute_count = max_minute = max_sleep = -1
+    max_minute_gid = max_sleep_gid = '-1'
     for k, v in guards.items():
         guard_max_minute = v.minutes.index(max(v.minutes))
         s = "GID: {:>5s}, Total Asleep: {:4d}, Max Minute: {:2d}"
@@ -110,12 +120,19 @@ def do_work(files):
         if max_sleep < v.total:
             max_minute = guard_max_minute
             max_sleep = v.total
-            max_gid = k
+            max_sleep_gid = k
+        if max_minute_count < max(v.minutes):
+            max_minute_count = max(v.minutes)
+            max_minute_index = v.minutes.index(max(v.minutes))
+            max_minute_gid = k
 
     print('*' * 10)
-    answer = int(max_gid) * max_minute
-    s = "Answer: {:5d}, GID: {:>4s}, Total Asleep: {:4d}, Max Minute: {:2d}"
-    print(s.format(answer, max_gid, max_sleep, max_minute))
+    answer = int(max_sleep_gid) * max_minute
+    s = "#1 Answer: {:5d}, GID: {:>4s}, Total Asleep: {:4d}, Max Minute: {:2d}"
+    print(s.format(answer, max_sleep_gid, max_sleep, max_minute))
+    answer = int(max_minute_gid) * max_minute_index
+    s = "#1 Answer: {:5d}, GID: {:>4s}, Max Minute: {:2d}, Max Minute Count: {:3d}"
+    print(s.format(answer, max_minute_gid, max_minute_index, max_minute_count))
 
 
 ###############################################################################
