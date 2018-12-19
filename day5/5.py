@@ -28,32 +28,53 @@
 #
 # How many units remain after fully reacting the polymer you scanned?
 #
+# --- Part Two ---
+#
+# Time to improve the polymer.
+#
+# One of the unit types is causing problems; it's preventing the polymer from
+# collapsing as much as it should. Your goal is to figure out which unit type
+# is causing the most problems, remove all instances of it (regardless of
+# polarity), fully react the remaining polymer, and measure its length.
+#
+# For example, again using the polymer dabAcCaCBAcCcaDA from above:
+#
+# Removing all A/a units produces dbcCCBcCcD. Fully reacting this polymer
+#   produces dbCBcD, which has length 6.
+# Removing all B/b units produces daAcCaCAcCcaDA. Fully reacting this polymer
+#   produces daCAcaDA, which has length 8.
+# Removing all C/c units produces dabAaBAaDA. Fully reacting this polymer
+#   produces daDA, which has length 4.
+# Removing all D/d units produces abAcCaCBAcCcaA. Fully reacting this polymer
+#   produces abCBAc, which has length 6.
+# In this example, removing all C/c units was best, producing the answer 4.
+#
+# What is the length of the shortest polymer you can produce by removing all
+# units of exactly one type and fully reacting the result?
+#
 import fileinput
 import argparse
 import copy
+import string
 
 
-def do_work(files):
-    """For the data in the file(s), do the work of solving the puzzle."""
-
+def part_1(line):
     prev_data = []
     current_data = []
 
     # first pass
-    for line in fileinput.input(files=files):
-        # print(line)
-        counter = 0
-        while counter < len(line):
-            c = line[counter]
-            if c.isupper() and c.lower() == line[counter+1]:
-                # print("skipping: {}".format(c))
-                counter += 2
-            elif c.islower() and c.upper() == line[counter+1]:
-                # print("skipping: {}".format(c))
-                counter += 2
-            else:
-                prev_data.append(c)
-                counter += 1
+    counter = 0
+    while counter < len(line):
+        c = line[counter]
+        if c.isupper() and c.lower() == line[counter+1]:
+            # print("skipping: {}".format(c))
+            counter += 2
+        elif c.islower() and c.upper() == line[counter+1]:
+            # print("skipping: {}".format(c))
+            counter += 2
+        else:
+            prev_data.append(c)
+            counter += 1
 
     while current_data != prev_data:
         # print(prev_data)
@@ -73,7 +94,26 @@ def do_work(files):
                 counter += 1
 
     units = len(current_data[:-1])
-    print("Units: {}".format(units))
+    return units
+
+
+def do_work(files):
+    """For the data in the file(s), do the work of solving the puzzle."""
+    for line in fileinput.input(files=files):
+        pass
+    units = part_1(line)
+    print("Part 1: Units: {}".format(units))
+
+    # Part 2
+    letter = ''
+    min_units = 100000000
+    for c in string.ascii_lowercase:
+        new_str = line.replace(c, '').replace(c.upper(), '')
+        rv = part_1(new_str)
+        if rv < min_units:
+            min_units = rv
+            letter = c
+    print('Letter: {}, Units: {}'.format(letter, min_units))
 
 
 ###############################################################################
