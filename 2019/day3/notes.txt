@@ -1,0 +1,45 @@
+(1,1) -> (3,1)
+(2,0) ^ (2, 2)
+
+  |
+- - -
+  |
+
+intersection at (2,2)
+b/c 
+1<=2<=3
+0<=1<=2
+
+
+but what if in Q2?
+
+(-3,1) -> (-1, 1) - we swapped b/c we want up and to the right
+(-2,0) ^ (-2, 2)
+intersection at (-2,2)
+b/c 
+-3<=-2<=-1
+0<=1<=2
+but we don't have to swap if we take absolute values.
+
+what about Q3?
+(-3,-1) -> (-1,-1) - we swapped b/c we want up and to the right
+(-2,-2) ^ (-2,0) - we swapped b/c we want up and to the right
+intersection at (-2,2)
+b/c 
+-3<=-2<=-1
+-2<=-1<=0
+
+Q4 will be similar to Q2, just swap x condition for y condition.
+
+
+But what if the segments cross quadrants?
+
+(-3,1) -> (3,1) - Q2->Q1
+(2, -2) -> (2, 3) - Q4->Q1
+
+still intersect at (2,2)
+But how to determine?
+-3<=2<=3
+-2<=1<=3
+Simple comparison works.
+
