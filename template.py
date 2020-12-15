@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Advent of code."""
 #
-# https://adventofcode.com/2018
+# https://adventofcode.com/2020
 #
 import fileinput
 import argparse
