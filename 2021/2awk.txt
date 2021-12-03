@@ -1,0 +1,5 @@
+Part 1
+awk '/down/ {dsum+=$2;} /up/ {usum+=$2} /forward/ {fsum+=$2} END{total = fsum * (dsum-usum); print total}'
+
+Part 2
+awk 'BEGIN{aim=0; depth=0;} /down/ {aim+=$2;} /up/ {aim-=$2} /forward/ {fsum+=$2; depth+=($2*aim)} END{total = fsum * depth; print total}' 2input.txt
